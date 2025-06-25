@@ -42,8 +42,8 @@ function spreadCommentList(bno, page=1){
 				li +=`</div>`;
 				li +=`<span class="badge bg-dark rounded-pill">${cvo.regDate}</span>`;
 				               
-                li +=`<button type="button" class="btn btn-outline-warning mod" data-bs-toggle="modal" data-bs-target="#myModal">e</button>`;
-                li +=`<button type="button" class="btn btn-outline-danger del">x</button>`;
+                li +=`<button type="button" class="btn btn-outline-warning mod" data-bs-toggle="modal" data-bs-target="#myModal">M</button>`;
+                li +=`<button type="button" class="btn btn-outline-danger del">X</button>`;
                                               
 				li +=`</li>`;
                 ul.innerHTML += li;
