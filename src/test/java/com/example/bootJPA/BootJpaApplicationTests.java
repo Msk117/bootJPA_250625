@@ -1,6 +1,7 @@
 package com.example.bootJPA;
 
 import com.example.bootJPA.dto.BoardDTO;
+import com.example.bootJPA.dto.BoardFileDTO;
 import com.example.bootJPA.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ class BootJpaApplicationTests {
 					.writer("tester"+((int)(Math.random()*50)+1)+"@test.com")
 					.content("test content" + i)
 					.build();
-			boardService.insert(boardDTO);
+			boardService.insert(new BoardFileDTO());
 
 		}
 	}

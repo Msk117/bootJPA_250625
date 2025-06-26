@@ -4,9 +4,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
-<div class="container-md" layout:fragment="content">
-    <h1> Detail Page </h1>
-    <form action="/board/register" method="post" id="modForm">
+<div class="container-md" layout:fragment="content" th:with="boardDTO=${boardFileDTO.boardDTO}">
+    <h1> No [[${boardDTO.bno}]]. page </h1>
+    <!-- enctype="multipart/form-data" 이 없으면 파일이 안감 -->
+    <form action="/board/register" method="post" id="modForm" enctype="multipart/form-data">
         <input type="hidden" name="bno" th:value="${boardDTO.bno}">
         <div class="mb-3">
             <label for="t" class="form-label">title</label>
@@ -33,6 +34,39 @@
             <textarea type="text" class="form-control"
                       name="content" id="c" cols="30" rows="10" readonly>[[${boardDTO.content}]]</textarea>
         </div>
+
+        <!--/* 첨부파일 출력 */-->
+        <div class="mb-3">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="fvo:${boardFileDTO.fileList}">
+                    <div th:if="${fvo.fileType == 1}" class="mb-3">
+                        <img th:src="@{|/upload/${fvo.saveDir}/${fvo.uuid}_${fvo.fileName}|}" class="img-fluid">
+                    </div>
+                    <div th:unless="${fvo.fileType == 1}" class="mb-3">
+                        <a th:href="@{|/upload/${fvo.saveDir}/${fvo.uuid}_${fvo.fileName}|}" th:download="${fvo.fileName}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-arrow-down-fill" viewBox="0 0 16 16">
+                                <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="fw-bold">[[${fvo.fileName}]]</div>
+                    <span class="badge rounded-pill text-bg-warning">[[${fvo.regDate}]] / [[${fvo.fileSize}]]Bytes</span>
+
+                    <button type="button" class="btn btn-sm btn-danger file-x"
+                            th:data-uuid="${fvo.uuid}" style="visibility:hidden;">X</button>
+                </li>
+            </ul>
+        </div>
+
+        <!--/* 파일 업로드 버튼 (수정용/비활성화) */-->
+        <div class="mb-3">
+            <input type="file" class="form-control" name="files" id="file" multiple style="display:none;">
+            <button type="button" class="btn btn-outline-primary" id="trigger" disabled>file upload</button>
+        </div>
+
+        <!--/* 파일 업로드 영역 */-->
+        <div class="mb-3" id="fileZone"></div>
+
         <button type="button" id="listBtn" class="btn btn-outline-primary">List</button>
         <button type="button" id="modBtn"  class="btn btn-outline-warning">Modify</button>
         <button type="button" id="delBtn"  class="btn btn-outline-danger">Delete</button>
@@ -81,6 +115,7 @@
     </script>
     <script th:src="@{/js/boardDetail.js}"></script>
     <script th:src="@{/js/boardComment.js}"></script>
+    <script th:src="@{/js/boardRegister.js}"></script>
     <script>
         spreadCommentList(bnoValue);
     </script>

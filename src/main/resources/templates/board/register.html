@@ -19,6 +19,16 @@
             <label for="c" class="form-label">content</label>
             <textarea type="text" class="form-control" name="content" id="c" cols="30" rows="10">test content...</textarea>
         </div>
-        <button type="submit" class="btn btn-outline-primary">Register</button>
+
+        <!--/* file 추가 라인 */-->
+        <div class="mb-3">
+            <input type="file" class="form-control" name="files" id="file" multiple style="display:none;">
+            <button type="button" class="btn btn-outline-primary" id="trigger">file upload</button>
+        </div>
+        <!--/* file 출력 라인 */-->
+        <div class="mb-3" id="fileZone"></div>
+
+        <button type="submit" id="regBtn" class="btn btn-primary">Register</button>
     </form>
+    <script th:src="@{/js/boardRegister.js}"></script>
 </div>
