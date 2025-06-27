@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/layout}">
+
+<div class="container-md" layout:fragment="content">
+    <h1> User List </h1>
+    <br>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" th:each="userDTO:${userList}">
+            <div class="card border-dark mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:src="@{/dist/image/pea2-1.jpg}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">[[${userDTO.nickName }]]</h5>
+                            <p class="card-text">[[${userDTO.email }]] <br> ([[${userDTO.regDate }]]) </p>
+                            <p class="card-text"><small class="text-body-secondary">Last login [[${userDTO.lastLogin }]] ago</small></p>
+
+                            <span class="badge rounded-pill text-bg-success" th:each="authList:${userDTO.authList}">[[${authList.auth }]]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
